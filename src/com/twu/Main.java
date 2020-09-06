@@ -35,6 +35,7 @@ public class Main {
                             case 1:
                                 checkHotSearch(hotSearchMap,searchWithRankMap);
                                 System.out.println("竞价表：" + moneyForRankList);
+
                                 break;
                             case 2:
                                 System.out.println("请输入你要投票的热搜名称");
@@ -43,6 +44,7 @@ public class Main {
                                     System.out.println("排行榜中暂未此条热搜，请重新选择或者添加热搜");
                                     break;
                                 }
+
                                 System.out.println("请输入你要投票的热搜票数： （你目前还有："+customer.vote + "票）");
                                 int voteNumber = sc.nextInt();
                                 if(voteNumber > customer.vote){
@@ -69,6 +71,8 @@ public class Main {
                                 searchWithRankMap.put(rank,moneySearchName);
                                 moneyForRankList.set(rank-1,money);
                                 break;
+
+>>>>>>> 86cc6e010ab4715a2e00f05c2d9309c50ec5546f
                             case 4:
                                 System.out.println("请输入你要添加的热搜事件的名字");
                                 String addSearchName = sc.next();
@@ -83,6 +87,7 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("请输入您的昵称");
+<<<<<<< HEAD
                     String adminName = sc.next();
                     System.out.println("请输入你的密码");
                     String adminPassword = sc.next();
@@ -133,11 +138,16 @@ public class Main {
         hotSearchMap.put(hotSearchToAdd,0);
     }
 
+<<<<<<< HEAD
     private static void checkHotSearch(Map<String, Integer> unsortSearchMap,Map<Integer,String> moneySearchMap) {
+=======
+    private static void checkHotSearch(Map<String, Integer> unsortSearchMap) {
+>>>>>>> 86cc6e010ab4715a2e00f05c2d9309c50ec5546f
         Map<String, Integer> sortedSearchMap = new LinkedHashMap<>();
         unsortSearchMap.entrySet().stream()
                 .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                 .forEachOrdered(x -> sortedSearchMap.put(x.getKey(), x.getValue()));
+<<<<<<< HEAD
 
         List<HotSearch> listResult = HotSearch.mapToList(sortedSearchMap);
         for(Map.Entry<Integer,String> entry : moneySearchMap.entrySet()) {
@@ -145,6 +155,10 @@ public class Main {
             listResult.add(entry.getKey()-1,moneySearch);
         }
 
+=======
+        List<HotSearch> listResult = HotSearch.mapToList(sortedSearchMap);
+        HotSearch insert = new HotSearch();
+>>>>>>> 86cc6e010ab4715a2e00f05c2d9309c50ec5546f
         for (int i = 0; i < listResult.size(); i++) {
             System.out.println((i+1)+". "+ listResult.get(i).getKeyword() + " " + listResult.get(i).getHotValue());
         }
