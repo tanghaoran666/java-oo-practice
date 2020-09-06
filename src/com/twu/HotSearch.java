@@ -9,6 +9,14 @@ public class HotSearch {
     private String keyword;
     private int hotValue;
 
+    public HotSearch(String keyword, int hotValue) {
+        this.keyword = keyword;
+        this.hotValue = hotValue;
+    }
+
+    public HotSearch() {
+    }
+
     public static List<HotSearch> mapToList(Map<String, Integer> map){
         List<HotSearch> list=new ArrayList();
         Iterator it=map.keySet().iterator();

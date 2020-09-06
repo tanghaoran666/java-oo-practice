@@ -3,18 +3,13 @@ package com.twu;
 import java.util.Scanner;
 
 public class User {
-    String name;
-    long password;
-    int vote;
+    private String name;
 
-    public User() {
+    public String getName() {
+        return name;
     }
 
-    public User(String name) {
+    public void setName(String name) {
         this.name = name;
-        this.password = 123;
-        this.vote = 10;
     }
-
-
 }
