@@ -10,18 +10,28 @@ public class Main {
         List<Integer> moneyForRankList = new ArrayList<>();
         List<String> superHotSearch = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
+
         boolean systemMenuStatus = true;
         while(systemMenuStatus){
             System.out.println("欢迎来到热搜排行榜，你是？");
             System.out.println("1.用户");
             System.out.println("2.管理员");
             System.out.println("3.退出");
-            int choice = sc.nextInt();
+            int choice ;
+            if(sc.hasNextInt()){
+                choice = sc.nextInt();
+            }else {
+                System.out.println("请输入选项内数字");
+                sc.next();
+                continue;
+            }
+
             switch (choice){
                 case 1:
                     System.out.println("请输入您的昵称");
                     String name = sc.next();
                     Customer customer = new Customer(name);
+
                     boolean customerMenuStatus = true;
                     while(customerMenuStatus){
                         System.out.println("你好"+customer.getName() +",你可以：" );
@@ -30,12 +40,20 @@ public class Main {
                         System.out.println("3.购买热搜");
                         System.out.println("4.添加热搜");
                         System.out.println("5.退出");
-                        int menuChoice = sc.nextInt();
+                        int menuChoice ;
+                        if(sc.hasNextInt()){
+                            menuChoice = sc.nextInt();
+                        }else {
+                            System.out.println("请输入选项内数字");
+                            sc.next();
+                            continue;
+                        }
+
+
                         switch (menuChoice){
                             case 1:
                                 checkHotSearch(hotSearchMap,searchWithRankMap);
-                                System.out.println("竞价表：" + moneyForRankList);
-
+                                System.out.println(moneyForRankList);
                                 break;
                             case 2:
                                 System.out.println("请输入你要投票的热搜名称");
@@ -46,7 +64,18 @@ public class Main {
                                 }
 
                                 System.out.println("请输入你要投票的热搜票数： （你目前还有："+customer.vote + "票）");
-                                int voteNumber = sc.nextInt();
+                               //////continue?
+                                int voteNumber =safeInputInt(sc);
+//                                while(true) {
+//                                    if (sc.hasNextInt()) {
+//                                        voteNumber = sc.nextInt();
+//                                        break;
+//                                    } else {
+//                                        System.out.println("请输入数字");
+//                                        sc.next();
+//                                    }
+//                                }
+
                                 if(voteNumber > customer.vote){
                                     System.out.println("投票失败");
                                     break;
@@ -59,10 +88,24 @@ public class Main {
                             case 3:
                                 System.out.println("请输入你要购买的热搜名称");
                                 String moneySearchName = sc.next();
+                                if(searchWithRankMap.containsValue(moneySearchName)){
+                                    System.out.println("已购买过排名的热搜无法再次购买");
+                                    break;
+                                }else if(!hotSearchMap.containsKey(moneySearchName)){
+                                    System.out.println("排行榜中暂未此条热搜，请重新选择或者添加热搜");
+                                    break;
+                                }
+
                                 System.out.println("请输入你要购买的热搜排名");
-                                int rank = sc.nextInt();
+                                int rank =safeInputInt(sc);
+                                if(rank > hotSearchMap.size()+ searchWithRankMap.size()) {
+                                    System.out.println("请选择已有排名范围内的排名");
+                                    break;
+                                }
                                 System.out.println("请输入你要购买的金额");
-                                int money = sc.nextInt();
+                                int money = safeInputInt(sc);
+
+
                                 if(money <= moneyForRankList.get(rank-1)) {
                                     System.out.println("竞价失败，请调整金额或者重选排名");
                                     break;
@@ -70,9 +113,8 @@ public class Main {
                                 hotSearchMap.remove(moneySearchName);
                                 searchWithRankMap.put(rank,moneySearchName);
                                 moneyForRankList.set(rank-1,money);
+                                System.out.println("购买成功");
                                 break;
-
->>>>>>> 86cc6e010ab4715a2e00f05c2d9309c50ec5546f
                             case 4:
                                 System.out.println("请输入你要添加的热搜事件的名字");
                                 String addSearchName = sc.next();
@@ -87,7 +129,6 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("请输入您的昵称");
-<<<<<<< HEAD
                     String adminName = sc.next();
                     System.out.println("请输入你的密码");
                     String adminPassword = sc.next();
@@ -103,7 +144,14 @@ public class Main {
                         System.out.println("2.添加热搜");
                         System.out.println("3.添加超级热搜");
                         System.out.println("4.退出");
-                        int adminchoice = sc.nextInt();
+                        int adminchoice ;
+                        if(sc.hasNextInt()){
+                            adminchoice = sc.nextInt();
+                        }else {
+                            System.out.println("请输入选项内数字");
+                            sc.next();
+                            continue;
+                        }
                         switch (adminchoice){
                             case 1:
                                 checkHotSearch(hotSearchMap,searchWithRankMap);
@@ -134,20 +182,31 @@ public class Main {
 
     }
 
+    private static int safeInputInt( Scanner sc) {
+        int number;
+        while(true) {
+            if (sc.hasNextInt()) {
+                number = sc.nextInt();
+                break;
+            } else {
+                System.out.println("请输入整数");
+                sc.next();
+            }
+        }
+        return number;
+    }
+
+
     private static void addHotSearch(Map<String, Integer> hotSearchMap, String hotSearchToAdd) {
         hotSearchMap.put(hotSearchToAdd,0);
     }
 
-<<<<<<< HEAD
     private static void checkHotSearch(Map<String, Integer> unsortSearchMap,Map<Integer,String> moneySearchMap) {
-=======
-    private static void checkHotSearch(Map<String, Integer> unsortSearchMap) {
->>>>>>> 86cc6e010ab4715a2e00f05c2d9309c50ec5546f
+
         Map<String, Integer> sortedSearchMap = new LinkedHashMap<>();
         unsortSearchMap.entrySet().stream()
                 .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                 .forEachOrdered(x -> sortedSearchMap.put(x.getKey(), x.getValue()));
-<<<<<<< HEAD
 
         List<HotSearch> listResult = HotSearch.mapToList(sortedSearchMap);
         for(Map.Entry<Integer,String> entry : moneySearchMap.entrySet()) {
@@ -155,10 +214,6 @@ public class Main {
             listResult.add(entry.getKey()-1,moneySearch);
         }
 
-=======
-        List<HotSearch> listResult = HotSearch.mapToList(sortedSearchMap);
-        HotSearch insert = new HotSearch();
->>>>>>> 86cc6e010ab4715a2e00f05c2d9309c50ec5546f
         for (int i = 0; i < listResult.size(); i++) {
             System.out.println((i+1)+". "+ listResult.get(i).getKeyword() + " " + listResult.get(i).getHotValue());
         }
